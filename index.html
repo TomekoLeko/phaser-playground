@@ -8,8 +8,8 @@
 
     var config = {
       type: Phaser.AUTO,
-      width: 800,
-      height: 600,
+      width: 400,
+      height: 240,
       title: 'Tilemap',
       url: 'webtips.dev',
       pixelArt: true,
@@ -47,16 +47,20 @@
   function create () {
     this.map = this.make.tilemap({ key: 'land_map' });
     this.tileset = this.map.addTilesetImage('land_map', 'land');  // ???????????????????? land_map
-    // this.platform = this.map.createStaticLayer('platform', this.tileset, 0, 0);
-
-    // this.map.createStaticLayer('background', this.tileset, 0, 0);
-    // this.platform.setCollisionByExclusion(-1, true);
-
+    this.platform = this.map.createLayer('land', this.tileset, 0, 0);
+    this.map.createLayer('sky', this.tileset, 0, 0);
+    this.platform.setCollisionByExclusion(-1, true);
 
 // /////////////////////
     player = this.physics.add.sprite(100, 100, 'atlas');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
+
+    // scene.cameras.main
+    // .setBounds(0, 0, scene.map.widthInPixels, scene.map.heightInPixels)
+    // .startFollow(this.sprite);
+
+    this.physics.add.collider(player, this.platform);
 
     this.anims.create({
       key: 'left',
